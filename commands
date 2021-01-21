@@ -1,0 +1,29 @@
+-------------------------
+        Azure CLI
+-------------------------
+
+az account list-locations -o table
+az group create -n aks-rg -l centralus
+az resource list -g aks-rg
+
+https://docs.microsoft.com/en-us/cli/azure/cosmosdb/mongodb?view=azure-cli-latest
+az cosmosdb create -n demo-13105 -g aks-rg --kind MongoDB --server-version 3.2 --default-consistency-level Eventual --locations regionName='Central US' failoverPriority=0 isZoneRedundant=False
+az cosmosdb mongodb database create -a demo-13105 -g aks-rg -n wpb
+az cosmosdb mongodb database list -a demo-13105 -g aks-rg -o table
+az cosmosdb show --name demo-13105 -g aks-rg
+
+az group delete -n aks-rg
+
+create environment variables:
+    TF_VAR_SUBSCIPTION_ID
+    TF_VAR_TENANT_ID
+
+-------------------------
+        TERRAFORM
+-------------------------
+terraform init -upgrade
+terraform validate
+terraform plan -out wpb-demo-rg.tfplan
+terraform plan -destroy -out wpb-demo-rg.destroy.tfplan
+terraform apply wpb-demo-rg.tfplan
+terraform destroy -auto-approve
